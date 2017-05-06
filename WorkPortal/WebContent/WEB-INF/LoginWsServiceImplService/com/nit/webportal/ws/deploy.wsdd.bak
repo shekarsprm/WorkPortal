@@ -1,0 +1,40 @@
+<!-- Use this file to deploy some handlers/chains and services      -->
+<!-- Two ways to do this:                                           -->
+<!--   java org.apache.axis.client.AdminClient deploy.wsdd          -->
+<!--      after the axis server is running                          -->
+<!-- or                                                             -->
+<!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   -->
+<!--      from the same directory that the Axis engine runs         -->
+
+<deployment
+    xmlns="http://xml.apache.org/axis/wsdd/"
+    xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from LoginWsServiceImplService WSDL service -->
+
+  <service name="LoginWsServiceImpl" provider="java:RPC" style="wrapped" use="literal">
+      <parameter name="wsdlTargetNamespace" value="http://ws.webportal.nit.com"/>
+      <parameter name="wsdlServiceElement" value="LoginWsServiceImplService"/>
+      <parameter name="schemaQualified" value="http://vo.webportal.nit.com,http://ws.webportal.nit.com"/>
+      <parameter name="wsdlServicePort" value="LoginWsServiceImpl"/>
+      <parameter name="className" value="com.nit.webportal.ws.LoginWsServiceImplSoapBindingImpl"/>
+      <parameter name="wsdlPortType" value="LoginWsServiceImpl"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <operation name="login" qname="operNS:login" xmlns:operNS="http://ws.webportal.nit.com" returnQName="retNS:loginReturn" xmlns:retNS="http://ws.webportal.nit.com" returnType="rtns:Response" xmlns:rtns="http://vo.webportal.nit.com" soapAction="" >
+        <parameter qname="pns:username" xmlns:pns="http://ws.webportal.nit.com" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="pns:password" xmlns:pns="http://ws.webportal.nit.com" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="pns:appName" xmlns:pns="http://ws.webportal.nit.com" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="pns:appId" xmlns:pns="http://ws.webportal.nit.com" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <parameter name="allowedMethods" value="login"/>
+
+      <typeMapping
+        xmlns:ns="http://vo.webportal.nit.com"
+        qname="ns:Response"
+        type="java:com.nit.webportal.vo.Response"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+  </service>
+</deployment>
